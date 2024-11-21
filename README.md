@@ -37,10 +37,11 @@ Welcome to the **Piazza Updater**, a framework developed by **Piazza AI** that d
 2. **API Keys**: Create a `.env` file to include API keys required for other modules (e.g., OpenAI, Anthropic). Refer to the [Verba repository](https://github.com/weaviate/Verba) for details.
 
 ### Steps to Run
-1. Clone this repository:
+1. Clone this repository and install dependencies
    ```bash
    git clone https://github.com/piazza-tech/Piazza-Updater.git
    cd Piazza-Updater
+   pip install -r requirements.txt
    ```
 
 2. Provide execution permissions for the `start.sh` script:
