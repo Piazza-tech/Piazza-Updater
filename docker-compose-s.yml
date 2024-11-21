@@ -1,0 +1,80 @@
+---
+
+services:
+
+  weaviate:
+    command:
+      - --host
+      - 0.0.0.0
+      - --port
+      - '8080'
+      - --scheme
+      - http
+    image: cr.weaviate.io/semitechnologies/weaviate:1.27.0
+    ports:
+      - 8080:8080
+      - 3000:8080
+      - 50051:50051
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+    restart: on-failure:0
+    healthcheck:
+      test: wget --no-verbose --tries=3 --spider http://127.0.0.1:8080/v1/.well-known/ready || exit 1
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    environment:
+      QUERY_DEFAULTS_LIMIT: 50
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+      DEFAULT_VECTORIZER_MODULE: 'text2vec-ollama'
+      ENABLE_API_BASED_MODULES: 'true'
+      ENABLE_MODULES: 'generative-ollama,text2vec-ollama'
+      CLUSTER_HOSTNAME: 'node1'
+
+  updater:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - WEAVIATE_URL=http://weaviate:8080
+      - OLLAMA_URL=http://ollama:11434
+      - OLLAMA_MODEL=llama3.2
+    ports:
+      - 8000:8000
+    depends_on:
+      weaviate:
+        condition: service_healthy
+    volumes:
+      - updater:/data/
+    healthcheck:
+      test: wget --no-verbose --tries=3 --spider http://127.0.0.1:8000 || exit 1
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+
+  ollama:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"  # Expose the port for Ollama
+    volumes:
+      - ollama:/root/.ollama  # Persistent storage for Ollama data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+              count: all  # Use 'all' for all available GPUs or specify a number
+    restart: always
+
+volumes:
+  weaviate_data:
+    external: true
+  ollama:
+    external: true
+  updater:
+    external: true
+...

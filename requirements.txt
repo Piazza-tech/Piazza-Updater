@@ -1,0 +1,6 @@
+requests 
+mwxml 
+mwparserfromhell
+tqdm
+goldenverba
+python-dotenv
