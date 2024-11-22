@@ -4,31 +4,11 @@ Welcome to the **Piazza Updater**, a framework developed by **Piazza AI** that d
 
 ---
 
-## Key Features
+## Piazza Workflow
 
-- **Weaviate Database Integration**: 
-  - Utilizes Weaviate's vector database for efficient data storage and retrieval.
-  - Provides semantic search and contextual understanding of information.
-  - Highly scalable for various data types, ensuring seamless LLM integration.
-
-- **Wikipedia Processing**: 
-  - Processes all Wikipedia dumps, storing data as vectorized chunks.
-  - Monitors Wikipedia for real-time changes and updates the database dynamically.
-
-- **Real-Time Internet Search**:
-  - Continuously fetches the latest information from the internet.
-  - Ensures that the LLM is always up-to-date with real-world events.
-
-- **RAG Framework Implementation**:
-  - Demonstrates a chatbot interface running on **Ollama Llama 3.2**.
-  - Vectorization is powered by **Llama text2vec-ollama**.
-  - A beautiful **web app** (powered by [Verba](https://github.com/weaviate/Verba)) allows users to interact with real-time data seamlessly.
-
-- **Flexible Deployment**:
-  - Can process entire datasets (e.g., all of Wikipedia) or smaller subsets for testing.
-  - Easily extendable to work with other databases, websites, or live internet data streams.
-
----
+<div style="text-align: center;">
+    <img src="assets/Flowchart.png" alt="Piazza Workflow" width="600"/>
+</div>
 
 ## How to Run the Demo
 
